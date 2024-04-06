@@ -1,0 +1,79 @@
+---
+import { FormAdLib } from "@/components/form-ad-lib";
+import Layout from "../layouts/Layout.astro";
+import { Separator } from "@/components/ui/separator";
+import { Image } from "astro:assets";
+---
+
+<Layout title="...I have a lot to say">
+	<main>
+		<div class="container max-w-2xl mx-auto">
+			<h1 class="text-4xl font-bold mt-20 mb-6">...I have a lot to say 😡</h1>
+			<div class="flex items-start gap-4">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="40"
+					height="40"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					class="lucide lucide-circle-alert"
+					><circle cx="12" cy="12" r="10"></circle><line
+						x1="12"
+						x2="12"
+						y1="8"
+						y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg
+				>
+				<p>
+					You probably have a lot to say, and the world would love to hear about
+					it. Please fill out the form below and maybe it will help you blow off
+					some steam.
+				</p>
+			</div>
+			<Separator className="my-6" />
+			<FormAdLib client:load />
+			<Separator className="my-10" />
+			<footer class="mt-6 mb-16">
+				<ul class="list-disc pl-6">
+					<li>
+						A stupid fucking thing made by
+						<a href="https://natedunn" class="underline">
+							<Image
+								class="rounded-full inline mx-2 !no-underline"
+								height={25}
+								width={25}
+								alt="Nate's profile photo"
+								src="https://natedunn.net/me-v2.webp"
+							/>@natedunn</a
+						>
+					</li>
+					<li>
+						Based off original <a
+							class="underline"
+							href="https://www.reddit.com/r/github/comments/1at9br4/i_am_new_to_github_and_i_have_lots_to_say/"
+							target="_blank">Reddit thread</a
+						>.
+					</li>
+					<li>
+						Inspired by <a
+							class="underline"
+							href="https://twitter.com/TheCoppinger"
+							target="_blank"
+							><Image
+								class="rounded-full inline mx-2 !no-underline"
+								height={25}
+								width={25}
+								alt="Nate's profile photo"
+								src="https://pbs.twimg.com/profile_images/1768033209110114304/Hh5kEn6d_400x400.jpg"
+							/>@TheCoppinger</a
+						>
+					</li>
+					<li>Please be kind. We're all just trying our best. ❤️</li>
+				</ul>
+			</footer>
+		</div>
+	</main>
+</Layout>
