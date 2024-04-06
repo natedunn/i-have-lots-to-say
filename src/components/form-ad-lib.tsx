@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState, type PropsWithChildren } from "react";
 import { Checkbox } from "./ui/checkbox";
+import { cn } from "@/lib/utils";
 
 const DEFAULTS = {
 	newTo: "Github",
@@ -10,22 +11,38 @@ const DEFAULTS = {
 	justWantTo: "download this stupid fucking application",
 };
 
-const Text = ({ children }: PropsWithChildren) => {
+const Text = ({
+	children,
+	focused = false,
+}: PropsWithChildren<{
+	focused?: boolean;
+}>) => {
 	return (
-		<span className="!text-white underline decoration-zinc-400 underline-offset-2 decoration-2">
+		<span
+			className={cn(
+				`!text-white underline decoration-zinc-400 underline-offset-2 decoration-2`,
+				!!focused && "bg-red-500"
+			)}
+		>
 			{children}
 		</span>
 	);
 };
 
 export function FormAdLib() {
+	// Text
 	const [newTo, setNewTo] = useState(DEFAULTS.newTo);
+	const [noFucksFor, setNoFucksFor] = useState(DEFAULTS.noFucksFor);
+	const [justWantTo, setJustWantTo] = useState(DEFAULTS.justWantTo);
+
+	// Utils
 	const [disableNewTo, setDisableNewTo] = useState<boolean | "indeterminate">(
 		"indeterminate"
 	);
-	const [noFucksFor, setNoFucksFor] = useState(DEFAULTS.noFucksFor);
-	const [justWantTo, setJustWantTo] = useState(DEFAULTS.justWantTo);
 	const [textToCopy, setTextToCopy] = useState("");
+	const [focus, setFocus] = useState<
+		"newTo" | "noFucksFor" | "justWantTo" | null
+	>(null);
 
 	const handleCopy = () => {
 		const divElement = document.getElementById("text-to-copy");
@@ -60,13 +77,15 @@ export function FormAdLib() {
 		<div className="w-full">
 			<div className="space-y-4">
 				<div className="space-y-3">
-					<Label htmlFor="new-to">What are you new to?</Label>
+					<Label htmlFor="newTo">What are you new to?</Label>
 					<Input
-						id="new-to"
+						id="newTo"
 						placeholder="Github"
 						type="text"
 						onChange={(e) => setNewTo(e.target.value)}
 						disabled={disableNewTo === true}
+						onFocus={() => setFocus("newTo")}
+						onBlur={() => setFocus(null)}
 					/>
 					<div className="flex items-center space-x-2">
 						<Checkbox
@@ -82,24 +101,26 @@ export function FormAdLib() {
 					</div>
 				</div>
 				<div className="space-y-2">
-					<Label htmlFor="no-fucks-for">
-						What do you not give a fuck about?
-					</Label>
+					<Label htmlFor="noFucksFor">What do you not give a fuck about?</Label>
 					<Input
 						className="uppercase"
-						id="no-fucks-for"
+						id="noFucksFor"
 						placeholder="CODE"
 						type="text"
 						onChange={(e) => setNoFucksFor(e.target.value.toUpperCase())}
+						onFocus={() => setFocus("noFucksFor")}
+						onBlur={() => setFocus(null)}
 					/>
 				</div>
 				<div className="space-y-2">
-					<Label htmlFor="just-want-to">What is your goal?</Label>
+					<Label htmlFor="justWantTo">What is your goal?</Label>
 					<Input
-						id="just-want-to"
+						id="justWantTo"
 						placeholder="download this stupid fucking application"
 						type="text"
 						onChange={(e) => setJustWantTo(e.target.value)}
+						onFocus={() => setFocus("justWantTo")}
+						onBlur={() => setFocus(null)}
 					/>
 				</div>
 			</div>
@@ -110,22 +131,27 @@ export function FormAdLib() {
 				<p>
 					{disableNewTo !== true && (
 						<span>
-							I am new to <Text>{newTo}</Text> and{" "}
+							I am new to <Text focused={focus === "newTo"}>{newTo}</Text> and{" "}
 						</span>
 					)}
 					I have lots to say
 				</p>
 				<p>
-					I DONT GIVE A FUCK ABOUT THE FUCKING <Text>{noFucksFor}</Text>! i just
-					want to <Text>{justWantTo}</Text>.{` `}
+					I DONT GIVE A FUCK ABOUT THE FUCKING{" "}
+					<Text focused={focus === "noFucksFor"}>{noFucksFor}</Text>! i just
+					want to <Text focused={focus === "justWantTo"}>{justWantTo}</Text>.
+					{` `}
 				</p>
 				<p>
-					WHY IS THERE <Text>{noFucksFor}</Text>??? MAKE A FUCKING SOLUTION AND
-					GIVE IT TO ME. these dumbfucks think that everyone is a developer and
-					understands <Text>{noFucksFor}</Text>. well i am not and i don't
-					understand it. I only know to download and install applications. SO
-					WHY THE FUCK IS THERE <Text>{noFucksFor}</Text>? STUPID FUCKING SMELLY
-					NERDS
+					WHY IS THERE{" "}
+					<Text focused={focus === "noFucksFor"}>{noFucksFor}</Text>??? MAKE A
+					FUCKING SOLUTION AND GIVE IT TO ME. these dumbfucks think that
+					everyone is a developer and understands{" "}
+					<Text focused={focus === "noFucksFor"}>{noFucksFor}</Text>. well i am
+					not and i don't understand it. I only know to download and install
+					applications. SO WHY THE FUCK IS THERE{" "}
+					<Text focused={focus === "noFucksFor"}>{noFucksFor}</Text>? STUPID
+					FUCKING SMELLY NERDS
 				</p>
 			</div>
 			<div className="mt-6 flex items-center gap-3">
